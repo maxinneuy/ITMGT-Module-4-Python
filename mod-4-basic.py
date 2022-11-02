@@ -70,8 +70,8 @@ def material_waste(total_material, material_units, num_jobs, job_consumption):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     remaining_material = total_material - num_jobs*job_consumption
-    remaining_string = str(remaining_material) + material_units
-    return remaining_string
+    material_waste = str(remaining_material) + material_units
+    return material_waste
     
 def interest(principal, rate, periods):
     '''Interest.
@@ -139,5 +139,5 @@ def body_mass_index(weight, height):
     weight_kg = weight*0.453592
     height_inch = height[0]*12 + height[1]
     height_m = height_inch*0.0254
-    bmi = weight_kg/(height_m**2)
-    return float(bmi)
+    body_mass_index = weight_kg/(height_m**2)
+    return float(body_mass_index)
