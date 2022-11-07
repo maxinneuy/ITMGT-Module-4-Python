@@ -43,9 +43,10 @@ def shift_letter(letter, shift):
     if final_int > 90:
        final_int = final_int - 26
     
+    # i don't get this underscore thing yet bear w me
+   # if shift == " ":
+    #   print("underscore")
     
-    if shift == "_":
-       print("underscore")
     str = chr(final_int)
     print(str)
     return str
