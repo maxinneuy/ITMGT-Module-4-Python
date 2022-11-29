@@ -43,10 +43,6 @@ def shift_letter(letter, shift):
     if final_int > 90:
        final_int = final_int - 26
     
-    # i don't get this underscore thing yet bear w me
-   # if shift == " ":
-    #   print("underscore")
-    
     str = chr(final_int)
     print(str)
     return str
@@ -85,7 +81,9 @@ def caesar_cipher(message, shift):
         str = chr(final_int)
         
         print(str, end='')
-                      
+    
+    return str
+
 def shift_by_letter(letter, letter_shift):
     '''Shift By Letter. 
     4 points.
