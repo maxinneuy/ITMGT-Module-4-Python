@@ -32,9 +32,40 @@ def relationship_status(from_member, to_member, social_graph):
         "no relationship" if neither fromMember nor toMember follow each other.
     '''
     # Replace `pass` with your code. 
-    # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    # Stay within the function. Only use the parameters as input. The function should return your answer.  
+    fromMember_following = social_graph.get(from_member, {}).get('following')
+    toMember_following = social_graph.get(to_member, {}).get('following')
+    print(fromMember_following)
+    print(toMember_following)
 
+    if to_member in fromMember_following:
+        status = "Follower"
+        if from_member in toMember_following:
+           status = "Followed by"
+           if to_member in fromMember_following and from_member in toMember_following:
+              status = "Friends"
+        print(status)
+        return status
+
+    
+    elif from_member in toMember_following:
+        status = "Followed by"
+        if to_member in fromMember_following and from_member in toMember_following:
+           status = "Friends"
+        print(status)
+        return status
+    
+    elif to_member in fromMember_following and from_member in toMember_following:
+        status = "Friends"
+        print(status)
+        return status
+        
+    
+    else:
+        status = "No relationship"
+        print(status)
+        return status
+    
 
 def tic_tac_toe(board):
     '''Tic Tac Toe. 
@@ -57,7 +88,88 @@ def tic_tac_toe(board):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    lengthlist=board[0]
+    k=len(lengthlist)
+    i=0
+    j=0
+    issame='false'
+    for i in range(k):
+        prevval=board[i][j]
+        for j in range (1,k):
+            curval=board[i][j]
+            if prevval == curval:
+                issame='true'
+            else:
+                issame='false'
+                break
+            prevval=curval
+        if issame=='true':
+            print('WINNER')
+            return
+
+        j=0
+
+    i=0
+    j=0
+    issame='false'
+    for j in range (k):
+        prevval=board[i][j]
+        for i in range (1,k):
+            curval=board[i][j]
+            if prevval == curval:
+                issame='true'
+            else:
+                issame='false'
+                break
+            prevval=curval
+        if issame=='true':
+            print('WINNER')
+            return
+        j=0    
+
+    i=0
+    j=0
+    issame='false'
+    prevval=board[i][j]
+    for i in range (k):
+        if i != k:
+            i=i+1
+        else:
+            break
+        if i == k:
+            break
+        curval=board[i][i]
+        if prevval == curval:
+                issame='true'
+        else:
+                issame='false'
+                break
+        prevval=curval
+    if issame=='true':
+        print('WINNER')
+        return
+
+    i=0
+    j=k-1
+    issame='false'
+    prevval=board[i][j]
+    while  j != 0 :
+        j=j-1
+        i=i+1
+        curval=board[i][j]
+        if prevval == curval:
+                issame='true'
+        else:
+                issame='false'
+                break
+        prevval=curval
+    if issame=='true':
+        print('WINNER')
+        return
+    else:
+        issame=='false'
+        print('NO WINNER')
+
 
 def eta(first_stop, second_stop, route_map):
     '''ETA. 
@@ -85,4 +197,61 @@ def eta(first_stop, second_stop, route_map):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    totaltime = 0
+    quest = (first_stop, second_stop)
+    Fstop = 'no'
+    Sstop = 'no'
+    if quest in route_map:
+        legtime = route_map.get(quest)
+        legitem = legtime.get('travel_time_mins')
+        print (legitem)
+    else:
+       
+        tkeylist = list(route_map.keys())
+        tkeylisttype = type(tkeylist)
+       
+        noKeys = len(tkeylist)
+        for i in range(noKeys):
+            tkeysubtup = tkeylist[i]
+            toneval = tkeysubtup[0]
+            tsecval = tkeysubtup[1]
+            tquest = (toneval, tsecval)
+            legtime = route_map.get(tquest)
+            legitem = legtime.get('travel_time_mins')
+            mintime = list(legtime)
+            mintype = type(mintime)
+            if toneval == first_stop :
+                Fstop = 'yes'
+                totaltime = totaltime + legitem
+            if tsecval == second_stop :
+                Sstop = 'yes'
+                totaltime = totaltime + legitem
+            if Fstop == 'yes'and Sstop == 'yes' :
+                break
+    
+        print(totaltime)
+        return(totaltime)
+UNILEGS = {
+     ("upd","admu"):{
+         "travel_time_mins":10
+     },
+     ("admu","dlsu"):{
+         "travel_time_mins":35
+     },
+     ("dlsu","upd"):{
+         "travel_time_mins":55
+     }
+}
+
+GENLEGS = {
+    ('a1', 'a2'): {
+        'travel_time_mins': 10
+    },
+    ('a2', 'b1'): {
+        'travel_time_mins': 10230
+    },
+    ('b1', 'a1'): {
+        'travel_time_mins': 1
+    }
+}
+
