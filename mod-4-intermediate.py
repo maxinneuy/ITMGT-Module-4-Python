@@ -37,16 +37,16 @@ def shift_letter(letter, shift):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    
-    final_int = ord(letter) + shift
-   
-    if final_int > 90:
-       final_int = final_int - 26
-    
-    str = chr(final_int)
-    print(str)
-    return str
-    
+    import string
+    import math
+    alphabet_string = string.ascii_uppercase
+    alphabet_list = list(alphabet_string)   
+    if (letter in alphabet_list):
+        return alphabet_list[alphabet_list.index(letter) + shift - (26 * (math.floor((alphabet_list.index(letter) + shift) / 26)))]
+    elif letter == " " :
+        return letter
+    else:
+        return (str(letter))
 
 def caesar_cipher(message, shift):
     '''Caesar Cipher. 
@@ -68,21 +68,10 @@ def caesar_cipher(message, shift):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    
-    list_1 = list(message)
-
-    for letter in list_1:
-        
-        final_int = ord(letter) + shift
-        
-        if final_int > 90:
-           final_int = final_int - 26
-
-        str = chr(final_int)
-        
-        print(str, end='')
-    
-    return str
+    A = ord('A')
+    return ''.join(
+        chr((ord(char) - A + shift) % 26 + A) if 'A' <= char <= 'Z' else char
+        for char in message.upper())
 
 def shift_by_letter(letter, letter_shift):
     '''Shift By Letter. 
@@ -112,16 +101,12 @@ def shift_by_letter(letter, letter_shift):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     alphabet = list(alphabet)
     letter_shift = alphabet.index(letter_shift)
-    
     final_int = ord(letter) + letter_shift
-    
     if final_int > 90:
        final_int = final_int - 26
-
     str = chr(final_int)
     print(str.upper())
     return str
@@ -157,30 +142,14 @@ def vigenere_cipher(message, key):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    message_length = len(message)
     key_length = len(key)
-    key=list(key)
-    key_phrase=""
-    j = 0
-    for i in range(message_length):
-        key_phrase=key_phrase + key[j]
-        j+=1
-        if j == key_length:
-            j=0
-    
-    key_phrase = list(key_phrase)
-    message = list(message)
-    final_ans = ""
-    for i in range(len(key_phrase)):
-        
-        key_ind = ord(key_phrase[i]) - 65
-        msg_ind = ord(message[i]) - 65
-           
-        final_ind = msg_ind + key_ind + 65
-        if final_ind > 90:
-           final_ind = final_ind - 26
-        final_str = chr(final_ind)
-
-        final_ans = final_ans + final_str
-    print(final_ans)
-    return message
+    key_as_int = [ord(i) for i in key]
+    message_int = [ord(i) for i in message]
+    final_answer = ''
+    for i in range(len(message_int)):
+        if message[i].isalpha():
+            value = (message_int[i] + key_as_int[i % key_length]) % 26
+            final_answer += chr(value + 65)
+        else:
+            final_answer += message[i]
+    return final_answer
