@@ -143,13 +143,13 @@ def vigenere_cipher(message, key):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     key_length = len(key)
-    key_as_int = [ord(i) for i in key]
+    key_int = [ord(i) for i in key]
     message_int = [ord(i) for i in message]
-    final_answer = ''
+    final_ans = ''
     for i in range(len(message_int)):
         if message[i].isalpha():
-            value = (message_int[i] + key_as_int[i % key_length]) % 26
-            final_answer += chr(value + 65)
+            value = (message_int[i] + key_int[i % key_length]) % 26
+            final_ans += chr(value + 65)
         else:
-            final_answer += message[i]
-    return final_answer
+            final_ans += message[i]
+    return final_ans
