@@ -71,38 +71,21 @@ def relationship_status(from_member, to_member, social_graph):
     },
 }
     
-    fromMember_following = social_graph.get(from_member, {}).get('following')
-    toMember_following = social_graph.get(to_member, {}).get('following')
-    print(fromMember_following)
-    print(toMember_following)
-
-    if to_member in fromMember_following:
-        status = "Follower"
-        if from_member in toMember_following:
-           status = "Followed by"
-           if to_member in fromMember_following and from_member in toMember_following:
-              status = "Friends"
-        print(status)
-        return status
-
-    
-    elif from_member in toMember_following:
-        status = "Followed by"
-        if to_member in fromMember_following and from_member in toMember_following:
-           status = "Friends"
-        print(status)
-        return status
-    
-    elif to_member in fromMember_following and from_member in toMember_following:
-        status = "Friends"
-        print(status)
-        return status
-        
-    
+    if to_member not in social_graph:
+        if to_member in social_graph[from_member]["following"]:
+            return "follower"
+        else:
+            return "no relationship"
+    elif to_member in social_graph[from_member]["following"]:
+        if from_member in social_graph[to_member]["following"]:
+            return "friends"
+        else:
+            return "follower"
     else:
-        status = "No relationship"
-        print(status)
-        return status
+        if from_member in social_graph[to_member]["following"]:
+            return "followed"
+        else:
+            return "no relationship"
     
 
 def tic_tac_toe(board):
@@ -126,87 +109,103 @@ def tic_tac_toe(board):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    lengthlist=board[0]
-    k=len(lengthlist)
-    i=0
-    j=0
-    issame='false'
-    for i in range(k):
-        prevval=board[i][j]
-        for j in range (1,k):
-            curval=board[i][j]
-            if prevval == curval:
-                issame='true'
+    length = len(board)
+    horizontal = [x for x in board]
+    vertical = [x for x in zip(*board)]
+    ul_lr = [board[i][i] for i in range(length)]
+    ll_ur = [board[length-1-i][i] for i in range(length)]
+    
+      
+    if length == 3:
+        if ['O','O','O'] in horizontal:
+            return 'O'
+        elif ['X','X','X'] in horizontal:
+            return 'X'
+        else:
+            if ('O','O','O') in vertical:
+                return 'O'
+            elif ('X','X','X') in vertical:
+                return 'X'
             else:
-                issame='false'
-                break
-            prevval=curval
-        if issame=='true':
-            print('WINNER')
-            return
-
-        j=0
-
-    i=0
-    j=0
-    issame='false'
-    for j in range (k):
-        prevval=board[i][j]
-        for i in range (1,k):
-            curval=board[i][j]
-            if prevval == curval:
-                issame='true'
+                if ul_lr == ['O','O','O']:
+                    return 'O'
+                elif ul_lr == ['X','X','X']:
+                    return 'X'
+                else:
+                    if ll_ur == ['O','O','O']:
+                        return 'O'
+                    elif ll_ur == ['X','X','X']:
+                        return 'X'
+                    else:
+                        return 'NO WINNER'                  
+    elif length == 4:
+        if ['O','O','O','O'] in horizontal:
+            return 'O'
+        elif ['X','X','X','X'] in horizontal:
+            return 'X'
+        else:
+            if ('O','O','O','O') in vertical:
+                return 'O'
+            elif ('X','X','X','X') in vertical:
+                return 'X'
             else:
-                issame='false'
-                break
-            prevval=curval
-        if issame=='true':
-            print('WINNER')
-            return
-        j=0    
-
-    i=0
-    j=0
-    issame='false'
-    prevval=board[i][j]
-    for i in range (k):
-        if i != k:
-            i=i+1
+                if ul_lr == ['O','O','O','O']:
+                    return 'O'
+                elif ul_lr == ['X','X','X','X']:
+                    return 'X'
+                else:
+                    if ll_ur == ['O','O','O']:
+                        return 'O'
+                    elif ll_ur == ['X','X','X']:
+                        return 'X'
+                    else:
+                        return 'NO WINNER'
+    elif length == 5:
+        if ['O','O','O','O','O'] in horizontal:
+            return 'O'
+        elif ['X','X','X','X','X'] in horizontal:
+            return 'X'
         else:
-            break
-        if i == k:
-            break
-        curval=board[i][i]
-        if prevval == curval:
-                issame='true'
+            if ('O','O','O','O','O') in vertical:
+                return 'O'
+            elif ('X','X','X','X','X') in vertical:
+                return 'X'
+            else:
+                if ul_lr == ['O','O','O','O','O']:
+                    return 'O'
+                elif ul_lr == ['X','X','X','X','X']:
+                    return 'X'
+                else:
+                    if ll_ur == ['O','O','O','O','O']:
+                        return 'O'
+                    elif ll_ur == ['X','X','X','X','X']:
+                        return 'X'
+                    else:
+                        return 'NO WINNER'
+    elif length == 6:
+        if ['O','O','O','O','O','O'] in horizontal:
+            return 'O'
+        elif ['X','X','X','X','X','X'] in horizontal:
+            return 'X'
         else:
-                issame='false'
-                break
-        prevval=curval
-    if issame=='true':
-        print('WINNER')
-        return
-
-    i=0
-    j=k-1
-    issame='false'
-    prevval=board[i][j]
-    while  j != 0 :
-        j=j-1
-        i=i+1
-        curval=board[i][j]
-        if prevval == curval:
-                issame='true'
-        else:
-                issame='false'
-                break
-        prevval=curval
-    if issame=='true':
-        print('WINNER')
-        return
+            if ('O','O','O','O','O','O') in vertical:
+                return 'O'
+            elif ('X','X','X','X','X','X') in vertical:
+                return 'X'
+            else:
+                if ul_lr == ['O','O','O','O','O','O']:
+                    return 'O'
+                elif ul_lr == ['X','X','X','X','X','X']:
+                    return 'X'
+                else:
+                    if ll_ur == ['O','O','O','O','O','O']:
+                        return '6O'
+                    elif ll_ur == ['X','X','X','X','X','X']:
+                        return 'X'
+                    else:
+                        return 'NO WINNER'
     else:
-        issame=='false'
-        print('NO WINNER')
+        return 'board parameter exceeded'
 
 board1 = [
 ['X','X','O'],
@@ -280,39 +279,35 @@ def eta(first_stop, second_stop, route_map):
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     totaltime = 0
     quest = (first_stop, second_stop)
+    #flags for first and second stop
     Fstop = 'no'
     Sstop = 'no'
-    if quest in route_map:
-        legtime = route_map.get(quest)
+    #get number of entries in route map
+    tkeylist = list(route_map.keys())
+    tkeylisttype = type(tkeylist)
+    noKeys = len(tkeylist)
+    for i in range(noKeys):
+        #get elements of key - toneval and tsecval
+        tkeysubtup = tkeylist[i]
+        toneval = tkeysubtup[0]
+        tsecval = tkeysubtup[1]
+        tquest = (toneval, tsecval)
+        legtime = route_map.get(tquest)
         legitem = legtime.get('travel_time_mins')
-        print (legitem)
-    else:
-       
-        tkeylist = list(route_map.keys())
-        tkeylisttype = type(tkeylist)
-       
-        noKeys = len(tkeylist)
-        for i in range(noKeys):
-            tkeysubtup = tkeylist[i]
-            toneval = tkeysubtup[0]
-            tsecval = tkeysubtup[1]
-            tquest = (toneval, tsecval)
-            legtime = route_map.get(tquest)
-            legitem = legtime.get('travel_time_mins')
-            mintime = list(legtime)
-            mintype = type(mintime)
-            if toneval == first_stop :
-                Fstop = 'yes'
-                totaltime = totaltime + legitem
-            if tsecval == second_stop :
-                Sstop = 'yes'
-                totaltime = totaltime + legitem
-            if Fstop == 'yes'and Sstop == 'yes' :
-                break
-    
-        print(totaltime)
-        return(totaltime)
-UNILEGS = {
+        #compare key values with function input parameters
+        if toneval == first_stop and tsecval == second_stop:
+            totaltime = legitem
+            return (totaltime)
+        if toneval == first_stop :
+            Fstop = 'yes'
+            totaltime = totaltime + legitem
+        if tsecval == second_stop :
+            Sstop = 'yes'
+            totaltime = totaltime + legitem
+        if Fstop == 'yes'and Sstop == 'yes' :
+            break   
+    return int
+legs = {
      ("upd","admu"):{
          "travel_time_mins":10
      },
@@ -323,16 +318,3 @@ UNILEGS = {
          "travel_time_mins":55
      }
 }
-
-GENLEGS = {
-    ('a1', 'a2'): {
-        'travel_time_mins': 10
-    },
-    ('a2', 'b1'): {
-        'travel_time_mins': 10230
-    },
-    ('b1', 'a1'): {
-        'travel_time_mins': 1
-    }
-}
-
